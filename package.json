@@ -1,0 +1,40 @@
+{
+  "name": "gulp-mswebdeploy",
+  "version": "0.1.0",
+  "homepage": "https://github.com/alphio/gulp-mswebdeploy-package",
+  "description": "Create Microsoft(TM) web deploy packages with grunt on any platform",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": {
+    "name": "NOAH HAMBAYI",
+    "email": "nhambayi@gmail.com",
+    "url": "http://alphio.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin"
+  ],
+  "dependencies": {
+    "archiver": "^0.21.0",
+    "colors": "^1.1.2",
+    "gulp-util": "^3.0.1",
+    "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
+    "through2": "^0.6.3",
+    "xmlbuilder": "^4.2.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
+}
