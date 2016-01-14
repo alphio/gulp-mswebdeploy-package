@@ -1,6 +1,6 @@
 {
   "name": "gulp-mswebdeploy",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "homepage": "https://github.com/alphio/gulp-mswebdeploy-package",
   "description": "Create Microsoft(TM) web deploy packages with grunt on any platform",
   "license": "MIT",

@@ -30,7 +30,7 @@ function generateParametersXml(options){
 }
 
 function createPackage(options, callback) {
-      //var done = this.async();
+      gutil.log("Starting...".green);
 
         if( !_.endsWith(options.source, '/') ){
           options.source = options.source + "/";
@@ -53,7 +53,7 @@ function createPackage(options, callback) {
 
         output.on('close', function () {
           gutil.log(archive.pointer() + ' total bytes');
-          gutil.log("Archive '" + options.dest.magenta + options.package.magenta.bold + ", created");
+          gutil.log("Package '" + options.dest.magenta + options.package.magenta.bold + ", created");
           callback();
         });
 
@@ -98,7 +98,7 @@ module.exports = function (options) {
 	}
 
 	return through.obj(function (file, enc, callback) {
-                
+        gutil.log('Initializing...');    
         createPackage(options, callback);
 	});
 };
