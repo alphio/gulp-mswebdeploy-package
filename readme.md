@@ -33,7 +33,7 @@ This sample creates a web deploy package using the files in 'app' in a folder ca
 
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Mocha](https://mochajs.org/).
 
 ## Release History
 0.1.0 : Beta Release
