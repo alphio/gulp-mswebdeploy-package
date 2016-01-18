@@ -98,7 +98,13 @@ module.exports = function (options) {
 	}
 
 	return through.obj(function (file, enc, callback) {
-        gutil.log('Initializing...');    
+        gutil.log('Initializing...');  
+        
+        if (file.isStream()) {
+            throw gutil.PluginError("gulp-mswebdeploy-package", "Stream is not supported");
+            return callback();
+        }
+      
         createPackage(options, callback);
 	});
 };
