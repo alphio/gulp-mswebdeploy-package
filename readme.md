@@ -3,7 +3,7 @@
 > Create Microsoft(TM) Web Deploy Packages With Gulp on Any Platform
 
 ## Introduction
-gulp-mswebdeploy-package allows you to bundle you site file into a Microsoft(TM) compatible web deploy file that can be used to publish to IIS. It is useful for creating build for JavaScript \ HTML project that are built and publish with Visual Studio Online, Visual Studio Team Services, TFS or and system that supports Web Deploy.
+gulp-mswebdeploy-package allows you to bundle you site file into a Microsoft(TM) compatible web deploy file that can be used to publish to IIS. It is useful for creating build for JavaScript \ HTML project that are built and publish with Visual Studio Online, Visual Studio Team Services, TFS or and system that supports Web Deploy. Please note this package DOES NOT DO THE ACTUAL DEPLOYMENT it simply creates the package.
 
 ## Getting Started
 
@@ -38,6 +38,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 0.1.0 : Beta Release
 0.1.2 : Updated docs
+0.1.3 : Updated package.json
 
 
 # gulp-mswebdeploy-package
