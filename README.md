@@ -38,6 +38,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 0.1.0 : Beta Release
 0.1.2 : Updated docs
-
+0.1.3 : Updated package.json
 
 # gulp-mswebdeploy-package
