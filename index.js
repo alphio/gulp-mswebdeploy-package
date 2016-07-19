@@ -28,25 +28,6 @@ function generateParametersXml(options){
      return archive_xml;
 }
 
-function validateOption(opts, error, callback) {
-    
-    if(opts == null || opts == 'undefined') {
-      error();
-    }
-    
-    if( !_.endsWith(opts.source, '/') ) {
-          options.source = options.source + "/";
-        }
-
-    if(!_.endsWith(options.dest, '/') ) {
-      options.dest = options.dest + "/";
-    }
-    
-    if(options.enabled === 'true'){
-      options.enabled == true;
-    }
-};
-
 function log(message) {
   gutil.log(message);
 }
@@ -148,7 +129,7 @@ module.exports = function (options) {
 	}
 
 	return through.obj(function (file, enc, callback) {
-        gutil.log('Initializing...');  
+        gutil.log('Initializing Gulp Webdeploy Package...');  
         
         if (file.isStream()) {
             throw gutil.PluginError("gulp-mswebdeploy-package", "Stream is not supported");

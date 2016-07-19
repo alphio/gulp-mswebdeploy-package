@@ -2,7 +2,7 @@
   "name": "gulp-mswebdeploy-package",
   "version": "0.1.4",
   "homepage": "https://github.com/alphio/gulp-mswebdeploy-package",
-  "description": "Create Microsoft(TM) web deploy packages with grunt on any platform",
+  "description": "Create Microsoft(TM) web deploy packages with gulp on any platform",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -23,7 +23,13 @@
     "index.js"
   ],
   "keywords": [
-    "gulpplugin"
+    "gulpplugin",
+    "webdeploy",
+    "web deploy",
+    "ms deploy",
+    "iis",
+    "deploy",
+    "azure deploy"
   ],
   "dependencies": {
     "archiver": "^0.21.0",
