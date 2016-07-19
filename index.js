@@ -1,20 +1,19 @@
 'use strict';
-var gutil       = require('gulp-util');
-var through     = require('through2');
-var fileSystem  = require("fs");
-var archiver    = require('archiver');
-var mkdirp      = require('mkdirp');
-var builder     = require('xmlbuilder');
-var _           = require("lodash");
-var colors      = require("colors");
+var gutil       = require('gulp-util'),
+    through     = require('through2'),
+    fileSystem  = require("fs"),
+    archiver    = require('archiver'),
+    mkdirp      = require('mkdirp'),
+    builder     = require('xmlbuilder'),
+    _           = require("lodash"),
+    colors      = require("colors");
 
 function generateManifestXml(options){
-    var system_info_xml = builder.create(
-      {'msdeploy.iisApp': {
+    var system_info_xml = builder.create({
+      'msdeploy.iisApp': {
         'iisApp' : {
           '@path' : options.source
         }
-
         }
       }).end({ pretty: true});
 
@@ -29,46 +28,97 @@ function generateParametersXml(options){
      return archive_xml;
 }
 
-function createPackage(options, callback) {
-      gutil.log("Starting...".green);
-
-        if( !_.endsWith(options.source, '/') ){
+function validateOption(opts, error, callback) {
+    
+    if(opts == null || opts == 'undefined') {
+      error();
+    }
+    
+    if( !_.endsWith(opts.source, '/') ) {
           options.source = options.source + "/";
         }
 
-        if(!_.endsWith(options.dest, '/') ){
-          options.dest = options.dest + "/";
-        }
+    if(!_.endsWith(options.dest, '/') ) {
+      options.dest = options.dest + "/";
+    }
+    
+    if(options.enabled === 'true'){
+      options.enabled == true;
+    }
+};
 
-      if(options.enabled){
-        mkdirp(options.dest, function(err) {
-            gutil.log("WARNING: Failed to create folder '".yellow + options.dest.red.bold + "' or the directory already exists.".yellow);
-        });
+function log(message) {
+  gutil.log(message);
+}
 
-        gutil.log('Creating web deploy package "' + options.dest.magenta + options.package.magenta.bold + '" from the directory "' + options.source.magenta + '"');
 
-        var output = fileSystem.createWriteStream(options.dest + options.package);
-        var archive = archiver('zip');
-        gutil.log("Archiving...".yellow);
+function createPackage(options, callback) {
+    gutil.log("==============================".green);
+    gutil.log("*        ".green 
+      + "Open Web Deploy".red 
+      + "     *".green);
+    gutil.log("==============================".green);
 
-        output.on('close', function () {
-          gutil.log(archive.pointer() + ' total bytes');
-          gutil.log("Package '" + options.dest.magenta + options.package.magenta.bold + ", created");
+    if( !_.endsWith(options.source, '/') ){
+      options.source = options.source + "/";
+    }
+
+    if(!_.endsWith(options.dest, '/') ){
+      options.dest = options.dest + "/";
+    }
+
+    if(!options.enabled) {
+      gutil.log("Disabled. Skipping deployment...".green);
+    }
+    else {
+      gutil.log("Creating deployment package...".green);
+      
+      mkdirp(options.dest, function(err) {
+        log(err);
+        log("WARNING: Failed to create folder '".yellow 
+        + options.dest.red.bold 
+        + "' or the directory already exists.".yellow);
+      });
+
+      log('Creating web deploy package "' 
+        + options.dest.magenta + options.package.magenta.bold 
+        + '" from the directory "' 
+        + options.source.magenta + '"');
+
+      var output = fileSystem.createWriteStream(options.dest + options.package);
+      var archive = archiver('zip');
+      gutil.log("Archiving...".yellow);
+
+      output.on('close', function () {
+        var archiveSize = (archive.pointer() / 1024).toFixed(0);
+        archiveSize = archiveSize.replace(/./g, function(c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            }) + ' Kilobytes';
+            
+        gutil.log("Web deploy package '" 
+        + options.dest.magenta + options.package.magenta.bold 
+        + ", created." 
+        + " ("
+        + archiveSize
+        + ")");
+        
+
+        callback();
+      });
+
+      archive.on('error', function(err){
+          gutil.log(err.toString().red);
           callback();
-        });
+      });
 
-        archive.on('error', function(err){
-            gutil.log(err.toString().red);
-            callback();
-        });
-
-        archive.pipe(output);
-        archive.directory(options.source);
-        archive.append(generateParametersXml(options), { name:'parameters.xml' });
-        archive.append( generateManifestXml(options), { name:'manifest.xml' });
-        archive.finalize();
-      }
+      archive.pipe(output);
+      archive.directory(options.source);
+      archive.append(generateParametersXml(options), { name:'parameters.xml' });
+      archive.append( generateManifestXml(options), { name:'manifest.xml' });
+      archive.finalize();
+    }
   }
+  
 
 module.exports = function (options) {
 
@@ -102,7 +152,6 @@ module.exports = function (options) {
         
         if (file.isStream()) {
             throw gutil.PluginError("gulp-mswebdeploy-package", "Stream is not supported");
-            return callback();
         }
       
         createPackage(options, callback);
