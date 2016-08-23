@@ -22,8 +22,7 @@ function generateManifestXml(options){
 }
 
 function generateParametersXml(options){
-    var archive_xml = builder.create({"parameters" : {
-    }
+    var archive_xml = builder.create({"parameters" : options.parameters
 
     }).end({ pretty: true});
      return archive_xml;
@@ -96,6 +95,10 @@ module.exports = function (options) {
     if (!options.includeAcls) {
 		options.includeAcls = true;
 	}
+
+  if (!options.parameters) {
+    options.parameters = { };
+  }
 
 	return through.obj(function (file, enc, callback) {
         gutil.log('Initializing...');  
