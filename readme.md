@@ -67,9 +67,9 @@ This sample is similar to above, but also defines a web deploy parameter called 
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Mocha](https://mochajs.org/).
 
 ## Release History
-0.1.0 : Beta Release
-0.1.2 : Updated docs
-0.1.3 : Updated package.json
-0.1.4 : Added support for parameters in the Web Deploy package
+0.1.0 : Beta Release  
+0.1.2 : Updated docs  
+0.1.3 : Updated package.json  
+0.1.4 : Added support for parameters in the Web Deploy package  
 
 # gulp-mswebdeploy-package
