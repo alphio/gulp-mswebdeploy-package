@@ -1,10 +1,11 @@
 'use strict';
-var gutil       = require('gulp-util');
+var log         = require('fancy-log');
 var through     = require('through2');
 var fileSystem  = require("fs");
 var archiver    = require('archiver');
 var mkdirp      = require('mkdirp');
 var builder     = require('xmlbuilder');
+var PluginError = require('plugin-error');
 var _           = require("lodash");
 var colors      = require("colors");
 
@@ -29,7 +30,7 @@ function generateParametersXml(options){
 }
 
 function createPackage(options, callback) {
-      gutil.log("Starting...".green);
+      log("Starting...".green);
 
         if( !_.endsWith(options.source, '/') ){
           options.source = options.source + "/";
@@ -41,23 +42,23 @@ function createPackage(options, callback) {
 
       if(options.enabled){
         mkdirp(options.dest, function(err) {
-            gutil.log("WARNING: Failed to create folder '".yellow + options.dest.red.bold + "' or the directory already exists.".yellow);
+            log("WARNING: Failed to create folder '".yellow + options.dest.red.bold + "' or the directory already exists.".yellow);
         });
 
-        gutil.log('Creating web deploy package "' + options.dest.magenta + options.package.magenta.bold + '" from the directory "' + options.source.magenta + '"');
+        log('Creating web deploy package "' + options.dest.magenta + options.package.magenta.bold + '" from the directory "' + options.source.magenta + '"');
 
         var output = fileSystem.createWriteStream(options.dest + options.package);
         var archive = archiver('zip');
-        gutil.log("Archiving...".yellow);
+        log("Archiving...".yellow);
 
         output.on('close', function () {
-          gutil.log(archive.pointer() + ' total bytes');
-          gutil.log("Package '" + options.dest.magenta + options.package.magenta.bold + ", created");
+          log(archive.pointer() + ' total bytes');
+          log("Package '" + options.dest.magenta + options.package.magenta.bold + ", created");
           callback();
         });
 
         archive.on('error', function(err){
-            gutil.log(err.toString().red);
+            log(err.toString().red);
             callback();
         });
 
@@ -101,10 +102,10 @@ module.exports = function (options) {
   }
 
 	return through.obj(function (file, enc, callback) {
-        gutil.log('Initializing...');  
-        
+        log('Initializing...');
+
         if (file.isStream()) {
-            throw gutil.PluginError("gulp-mswebdeploy-package", "Stream is not supported");
+            throw PluginError("gulp-mswebdeploy-package", "Stream is not supported");
             return callback();
         }
       
