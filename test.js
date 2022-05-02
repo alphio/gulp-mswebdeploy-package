@@ -1,6 +1,6 @@
 'use strict';
 var assert = require('assert');
-var gutil = require('gulp-util');
+var File = require('vinyl');
 var mswebdeploy = require('./index.js');
 
 it('should ', function (cb) {
@@ -13,10 +13,11 @@ it('should ', function (cb) {
 
 	stream.on('end', cb);
 
-	stream.write(new gutil.File({
+	stream.write(new File({
 		base: __dirname,
 		path: __dirname + '/file.ext',
-		contents: new Buffer('unicorns')
+		// Buffer() constructor is deprecated; use Buffer.from if available
+		contents: (Buffer.from ? Buffer.from('unicorns') : new Buffer('unicorns'))
 	}));
 
 	stream.end();
